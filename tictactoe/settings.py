@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,9 +24,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-r_rb&gxf4-#1$w211l3)b4bmdmdhz!jij6kawflr4e$f#t^=(m"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["138.197.191.55",]
+
+ROOT_URLCONF = 'tictactoe.urls'
+
+WSGI_APPLICATION = 'tictactoe.wsgi.application'
+
+ASGI_APPLICATION = 'tictactoe.asgi.application'
 
 
 # Application definition
@@ -54,8 +61,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "tictactoe.urls"
-
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -72,49 +77,56 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = "game.wsgi.application"
-
-'''this is asynchronous'''
-ASGI_APPLICATION = "tictactoe.asgi.application"
-ALLOWED_HOSTS = ['*']
 
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
-'''DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-'''
+
 #postgres database
 #python manage.py migrate --run-syncdb
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "tictacdb",  #nome da db
-        "USER": "postgres",
-        "PASSWORD": "123456",
-        "HOST": "localhost",
-        "PORT": "5432",
-        
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'django_db',
+        'USER': 'django',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
-#aws_postgres
-'''DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "tictacdb",  #nome da db
-        "USER": "superuser",
-        "PASSWORD": "12345678",
-        "HOST": "tictacdb.cmi7guyygart.us-east-1.rds.amazonaws.com",
-        "PORT": "5432",
-        
-    }
-}'''
+AWS_ACCESS_KEY_ID = 'DO00H8Y8M4YQ62UBV3DF'
+AWS_SECRET_ACCESS_KEY = 'D60VMR+7Q82ybgn1owmQND1vQX5dfsheP/JxlDNNELk'
+AWS_STORAGE_BUCKET_NAME = 'tictactoe-spaces'
+AWS_S3_ENDPOINT_URL = 'https://tictactoe-spaces.fra1.digitaloceanspaces.com'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'tictactoe-static'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_LOCATION)
+TEMP = os.path.join(BASE_DIR, 'temp')
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'a036020.ismai@gmail.com'
+EMAIL_HOST_PASSWORD = 'Supertramp.142'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'TicTacToe Team <a036020.ismai@gmail.com>'
+
+
+BASE_URL = "http://138.197.191.55"
+PROJECT_NAME='tictactoe'
 
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
