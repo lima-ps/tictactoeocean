@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        * {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: linear-gradient(166.66deg, rgb(31, 117, 206) 4.62%, rgb(23, 121, 207) 4.62%, rgb(116, 75, 196) 86.29%);
+        }
+
+        .wrapper .createButtom {
+            background-color: azure;
+            color: black;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .wrapper .form {
+            width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: left;
+            flex-direction: column;
+        }
+
+        .wrapper .form input {
+            margin: 10px 0px;
+            padding: 12px 15px;
+            width: 100%;
+            border: 0px solid;
+            /* border-bottom: 2px solid black; */
+            box-shadow: 0px 3px 7px 1px #0000001f;
+            outline: none;
+            transition: all .3s ease-in-out;
+            border: 1px solid rgba(0, 0, 0, 0);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1.3px;
+            border-radius: 6px;
+            color: gray;
+        }
+
+        .wrapper .form input:focus {
+            border-bottom: 1px solid rgb(0 0 0 / 10%);
+            border-left: 1px solid rgba(0, 0, 0, 0.036);
+            border-right: 1px solid rgba(0, 0, 0, 0.036);
+            border-top: 1px solid rgba(0, 0, 0, 0.036);
+            box-shadow: none;
+        }
+
+        .wrapper .form button {
+            margin-top: 15px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 8px 0px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            color: rgb(58, 48, 48);
+            border-radius: 5px;
+            transition: all .3s ease-in-out;
+            transform: scale(1);
+            background: #0089ff;
+
+        }
+
+        .wrapper .form button:active {
+            transform: scale(.9);
+        }
+
+        .message {
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .message.success {
+            color: #36ff00;
+        }
+
+        .message.error {
+            color: #ff0000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <form class="form" action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Username...">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter Your Password">
+            <button type="submit" value="Loginr">Login</button>
+        </form>
+        <br>
+        {% for message in messages %}
+        <p id="messages"> {{message}} </p>
+        {% endfor %}
+        <div>
+            <br>
+            Don't have an accont? <a href=" {% url 'register' %}"> Sign Up</a>
+        </div>
+    </div>
+</body>
+
+</html>
